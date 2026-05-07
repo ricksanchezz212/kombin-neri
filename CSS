@@ -1,9 +1,45 @@
-button {
-  transition: all 0.15s ease;
+body {
+  font-family: Arial;
+  background: linear-gradient(135deg, #2a004f, #5a00b3);
+  color: white;
+  text-align: center;
+  padding: 20px;
 }
 
+h1 {
+  margin-bottom: 5px;
+}
+
+.card {
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(8px);
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 500px;
+  margin: auto;
+  margin-top: 15px;
+}
+
+button {
+  margin: 6px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #000;
+  color: white;
+  transition: 0.15s;
+}
+
+/* basma hissi */
 button:active {
-  transform: scale(0.94);
-  background: #ff0055;
-  box-shadow: 0 0 10px rgba(255,0,85,0.5);
+  transform: scale(0.96);
+  background: #222;
+}
+
+.result {
+  margin-top: 15px;
+  background: rgba(0,0,0,0.5);
+  padding: 15px;
+  border-radius: 15px;
 }
