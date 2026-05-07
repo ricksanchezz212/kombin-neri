@@ -6,98 +6,117 @@
 
 <style>
 body {
+  margin: 0;
   font-family: Arial;
-  background: #0d0d0d;
+  background: #0b0b0f;
   color: white;
-  text-align: center;
-  padding: 20px;
+  display: flex;
+  justify-content: center;
 }
 
-h1 { margin-bottom: 5px; }
-
-.card {
-  background: #1c1c1c;
+/* telefon gibi frame */
+.app {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100vh;
+  background: #12121a;
   padding: 20px;
-  border-radius: 20px;
-  max-width: 500px;
-  margin: auto;
-  margin-top: 20px;
-  box-shadow: 0 0 15px rgba(255,0,85,0.2);
+  box-sizing: border-box;
+}
+
+/* header */
+h1 {
+  font-size: 24px;
+  margin: 10px 0 5px;
+}
+
+p {
+  opacity: 0.7;
+  font-size: 13px;
+}
+
+/* kart hissi */
+.card {
+  background: #1c1c2a;
+  border-radius: 18px;
+  padding: 16px;
+  margin-top: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
   transition: 0.3s;
 }
 
+/* butonlar */
 button {
-  margin: 6px;
-  padding: 10px 14px;
+  width: 100%;
+  margin: 6px 0;
+  padding: 12px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  background: #2a2a2a;
+  background: #2a2a3a;
   color: white;
   transition: 0.2s;
 }
 
 button:hover {
   background: #ff0055;
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
-.step { display: none; }
-.active { display: block; }
-
-.title {
-  color: #ffcc00;
-  margin-bottom: 10px;
-}
-
-/* küçük animasyon */
-.pop {
-  animation: pop 0.3s ease;
+/* alt sonuç kartı */
+.result {
+  background: linear-gradient(135deg, #ff0055, #7a00ff);
+  padding: 15px;
+  border-radius: 15px;
+  margin-top: 15px;
+  animation: pop 0.25s ease;
 }
 
 @keyframes pop {
   from { transform: scale(0.95); opacity: 0.5; }
   to { transform: scale(1); opacity: 1; }
 }
+
+/* küçük label */
+.title {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 10px;
+}
 </style>
 </head>
 
 <body>
 
+<div class="app">
+
 <h1>😎 Style Mood App</h1>
-<p>Seç veya şansa bırak 🎲</p>
+<p>Seç → kombin al → vibe bul</p>
 
-<button onclick="randomAll()">🎲 Random Kombin</button>
-
-<div class="card pop" id="resultBox">
-
-<!-- STEP 1 -->
-<div id="step1" class="step active">
-  <div class="title">1️⃣ Ruh halini seç</div>
+<div class="card">
+  <div class="title">1️⃣ Ruh hali</div>
   <button onclick="setMood('confident')">🔥 Özgüvenli</button>
   <button onclick="setMood('tired')">😴 Yorgun</button>
   <button onclick="setMood('energetic')">⚡ Enerjik</button>
 </div>
 
-<!-- STEP 2 -->
-<div id="step2" class="step">
-  <div class="title">2️⃣ Stil seç</div>
+<div class="card">
+  <div class="title">2️⃣ Stil</div>
   <button onclick="setStyle('street')">🧢 Street</button>
   <button onclick="setStyle('old')">💼 Old Money</button>
   <button onclick="setStyle('drip')">🔥 Drip</button>
 </div>
 
-<!-- STEP 3 -->
-<div id="step3" class="step">
+<div class="card">
   <div class="title">3️⃣ Durum</div>
   <button onclick="setSituation('school')">🏫 Okul</button>
   <button onclick="setSituation('out')">🌆 Dışarı</button>
   <button onclick="setSituation('date')">💘 Date</button>
 </div>
 
-</div>
+<div id="result"></div>
 
-<div class="card" id="result" style="display:none;"></div>
+</div>
 
 <script>
 
@@ -105,68 +124,51 @@ let mood = "";
 let style = "";
 let situation = "";
 
-function setMood(m){ mood = m; next(2); }
-function setStyle(s){ style = s; next(3); }
-function setSituation(si){ situation = si; show(); }
+function setMood(m){ mood = m; check(); }
+function setStyle(s){ style = s; check(); }
+function setSituation(si){ situation = si; check(); }
 
-function next(step){
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.getElementById('step' + step).classList.add('active');
+function check(){
+  if(mood && style && situation){
+    show();
+  }
 }
 
-function buildResult(m, s, si){
+function build(){
 
   let text = "";
 
-  if(s === "street"){
+  if(style === "street"){
     text = "🧢 Street: Hoodie + baggy jean + sneaker";
   }
 
-  if(s === "old"){
+  if(style === "old"){
     text = "💼 Old Money: Gömlek + slim pantolon + clean sneaker";
   }
 
-  if(s === "drip"){
+  if(style === "drip"){
     text = "🔥 Drip: Oversize tee + cargo + hype sneaker";
   }
 
-  if(m === "tired") text += " | 😴 chill mode";
-  if(m === "energetic") text += " | ⚡ dikkat çekme";
-  if(m === "confident") text += " | 🔥 dominant vibe";
+  if(mood === "tired") text += " | 😴 chill mode";
+  if(mood === "energetic") text += " | ⚡ enerji full";
+  if(mood === "confident") text += " | 🔥 dominant vibe";
 
-  if(si === "school") text += " | 🏫 okul";
-  if(si === "out") text += " | 🌆 dışarı";
-  if(si === "date") text += " | 💘 date";
+  if(situation === "school") text += " | 🏫 okul";
+  if(situation === "out") text += " | 🌆 dışarı";
+  if(situation === "date") text += " | 💘 date";
 
   return text;
 }
 
 function show(){
 
-  const text = buildResult(mood, style, situation);
-
-  document.getElementById('result').style.display = "block";
-  document.getElementById('result').classList.add("pop");
-
-  document.getElementById('result').innerHTML = `
-    <div class="title">🎯 Senin Kombinin</div>
-    <div>${text}</div>
+  document.getElementById("result").innerHTML = `
+    <div class="result">
+      <b>🎯 Senin Kombinin</b><br><br>
+      ${build()}
+    </div>
   `;
-
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-}
-
-function randomAll(){
-
-  const moods = ["confident","tired","energetic"];
-  const styles = ["street","old","drip"];
-  const situations = ["school","out","date"];
-
-  mood = moods[Math.floor(Math.random()*moods.length)];
-  style = styles[Math.floor(Math.random()*styles.length)];
-  situation = situations[Math.floor(Math.random()*situations.length)];
-
-  show();
 }
 
 </script>
