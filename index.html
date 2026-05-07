@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Kombin Asistanı 🔥</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #0d0d0d;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 5px;
+    }
+
+    button {
+      margin: 6px;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #1f1f1f;
+      color: white;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #ff0055;
+    }
+
+    .box {
+      margin-top: 20px;
+      background: #1c1c1c;
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+      line-height: 1.6;
+    }
+
+    .title {
+      color: #ffcc00;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🔥 Kombin Asistanı</h1>
+<p>Stil seç, sana 3 kombin öneriyim</p>
+
+<button onclick="stylePick('street')">Streetwear</button>
+<button onclick="stylePick('old')">Old Money</button>
+<button onclick="stylePick('drip')">Drip</button>
+<button onclick="stylePick('y2k')">Y2K</button>
+
+<div class="box" id="result">
+  Stil seçince kombinler burada çıkacak
+</div>
+
+<script>
+function stylePick(type){
+
+  let output = "";
+
+  if(type === "street"){
+    output = `
+<span class="title">🔥 Streetwear Kombinleri</span><br><br>
+
+1) Oversize hoodie + baggy jean + Nike Dunk + şapka<br>
+2) T-shirt + cargo pant + sneaker + zincir<br>
+3) Hoodie + eşofman altı + retro sneaker + crossbody çanta
+`;
+  }
+
+  if(type === "old"){
+    output = `
+<span class="title">💼 Old Money Kombinleri</span><br><br>
+
+1) Beyaz gömlek + slim fit pantolon + loafer + saat<br>
+2) Polo tişört + chino pantolon + clean sneaker<br>
+3) Triko kazak + klasik pantolon + deri ayakkabı
+`;
+  }
+
+  if(type === "drip"){
+    output = `
+<span class="title">🔥 Drip Kombinleri</span><br><br>
+
+1) Designer hoodie + baggy pant + zincir + hype sneaker<br>
+2) Oversize tee + ripped jean + aksesuar + Jordan<br>
+3) Full black outfit + minimal takı + premium sneaker
+`;
+  }
+
+  if(type === "y2k"){
+    output = `
+<span class="title">💿 Y2K Kombinleri</span><br><br>
+
+1) Parlak hoodie + baggy jean + retro gözlük<br>
+2) Crop jacket + düşük bel pantolon + chunky sneaker<br>
+3) Renkli hoodie + baggy pant + aksesuar overload
+`;
+  }
+
+  document.getElementById("result").innerHTML = output;
+}
+</script>
+
+</body>
+</html>
