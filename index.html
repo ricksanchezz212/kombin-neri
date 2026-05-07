@@ -1,95 +1,172 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>Mood Style Matcher 😎</title>
+<meta charset="UTF-8">
+<title>Style Mood App 😎</title>
 
-  <style>
-    body {
-      font-family: Arial;
-      background: #0d0d0d;
-      color: white;
-      text-align: center;
-      padding: 30px;
-    }
+<style>
+body {
+  font-family: Arial;
+  background: #0d0d0d;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
 
-    button {
-      margin: 5px;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      background: #1f1f1f;
-      color: white;
-    }
+h1 { margin-bottom: 5px; }
 
-    button:hover {
-      background: #ff0055;
-    }
+.card {
+  background: #1c1c1c;
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 500px;
+  margin: auto;
+  margin-top: 20px;
+}
 
-    .box {
-      margin-top: 20px;
-      background: #1c1c1c;
-      padding: 20px;
-      border-radius: 15px;
-      max-width: 500px;
-      margin: auto;
-      text-align: left;
-    }
+button {
+  margin: 6px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #2a2a2a;
+  color: white;
+}
 
-    .title {
-      color: #ffcc00;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-  </style>
+button:hover {
+  background: #ff0055;
+}
+
+.step {
+  display: none;
+}
+
+.active {
+  display: block;
+}
+
+.title {
+  color: #ffcc00;
+  margin-bottom: 10px;
+}
+</style>
 </head>
 
 <body>
 
-<h1>😎 Mood Style Matcher</h1>
-<p>Ruh halini seç, sana kombin verelim</p>
+<h1>😎 Style Mood App</h1>
+<p>Seçim yap → sana kombin verelim</p>
 
-<button onclick="pick('confident')">🔥 Özgüvenli</button>
-<button onclick="pick('tired')">😴 Yorgun</button>
-<button onclick="pick('energetic')">⚡ Enerjik</button>
-<button onclick="pick('chill')">🧃 Umursamaz</button>
-<button onclick="pick('thinking')">🧠 Düşünceli</button>
+<div class="card">
 
-<div class="box" id="result">
-  Mood seçince burada kombin çıkacak
+<!-- STEP 1 -->
+<div id="step1" class="step active">
+  <div class="title">1️⃣ Ruh halini seç</div>
+  <button onclick="setMood('confident')">🔥 Özgüvenli</button>
+  <button onclick="setMood('tired')">😴 Yorgun</button>
+  <button onclick="setMood('energetic')">⚡ Enerjik</button>
 </div>
 
+<!-- STEP 2 -->
+<div id="step2" class="step">
+  <div class="title">2️⃣ Stil seç</div>
+  <button onclick="setStyle('street')">🧢 Street</button>
+  <button onclick="setStyle('old')">💼 Old Money</button>
+  <button onclick="setStyle('drip')">🔥 Drip</button>
+</div>
+
+<!-- STEP 3 -->
+<div id="step3" class="step">
+  <div class="title">3️⃣ Günlük durum</div>
+  <button onclick="setSituation('school')">🏫 Okul</button>
+  <button onclick="setSituation('out')">🌆 Dışarı</button>
+  <button onclick="setSituation('date')">💘 Date</button>
+</div>
+
+</div>
+
+<div class="card" id="result" style="display:none;"></div>
+
 <script>
-function pick(mood){
 
-  let result = "";
+let mood = "";
+let style = "";
+let situation = "";
 
-  if(mood === "confident"){
-    result = "🔥 Oversize hoodie + baggy jean + sneaker + zincir → 'ben buradayım' vibe";
+function setMood(m){
+  mood = m;
+  nextStep(2);
+}
+
+function setStyle(s){
+  style = s;
+  nextStep(3);
+}
+
+function setSituation(si){
+  situation = si;
+  showResult();
+}
+
+function nextStep(step){
+
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+
+  document.getElementById('step' + step).classList.add('active');
+}
+
+function showResult(){
+
+  let text = "";
+
+  if(style === "street"){
+    text = "🧢 Street outfit: Oversize hoodie + baggy jean + sneaker + cap";
   }
 
+  if(style === "old"){
+    text = "💼 Old Money: Beyaz gömlek + slim pantolon + clean sneaker";
+  }
+
+  if(style === "drip"){
+    text = "🔥 Drip: Oversize tee + cargo pant + zincir + hype sneaker";
+  }
+
+  // mood ek etkisi
   if(mood === "tired"){
-    result = "😴 Basic hoodie + eşofman + rahat sneaker → minimum efor modu";
+    text += " (rahatlık max seviyede)";
   }
 
   if(mood === "energetic"){
-    result = "⚡ Renkli hoodie + cargo pant + chunky sneaker → dikkat çekme modu";
+    text += " (dikkat çekme modu açık)";
   }
 
-  if(mood === "chill"){
-    result = "🧃 Basic tişört + relaxed pantolon + sade sneaker → umursamaz cool";
+  if(mood === "confident"){
+    text += " (dominant vibe)";
   }
 
-  if(mood === "thinking"){
-    result = "🧠 Minimal outfit + koyu renkler + sade stil → derin düşünce vibe";
+  // durum ek etkisi
+  if(situation === "school"){
+    text += " | 🏫 Okul için uygun";
   }
 
+  if(situation === "out"){
+    text += " | 🌆 Dışarı kombin";
+  }
+
+  if(situation === "date"){
+    text += " | 💘 Date için temiz görünüm";
+  }
+
+  document.getElementById("result").style.display = "block";
   document.getElementById("result").innerHTML = `
-    <div class="title">Kombin Önerisi</div>
-    <div>${result}</div>
+    <div class="title">🎯 Senin Kombinin</div>
+    <div>${text}</div>
   `;
+
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
 }
+
 </script>
 
 </body>
