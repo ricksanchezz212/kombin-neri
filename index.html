@@ -1,74 +1,67 @@
 <!DOCTYPE html>
 <html lang="tr">
-<head><link rel="stylesheet" href="style.css">
+<head>
 <meta charset="UTF-8">
 <title>Style Mood App 😎</title>
 
 <style>
 body {
-  margin: 0;
   font-family: Arial;
-  background: #0b0b0f;
+  background: #0d0d0d;
   color: white;
-  display: flex;
-  justify-content: center;
-}
-
-/* telefon gibi frame */
-.app {
-  width: 100%;
-  max-width: 420px;
-  min-height: 100vh;
-  background: #12121a;
+  text-align: center;
   padding: 20px;
-  box-sizing: border-box;
 }
 
-/* header */
-h1 {
-  font-size: 24px;
-  margin: 10px 0 5px;
-}
+h1 { margin-bottom: 5px; }
 
-p {
-  opacity: 0.7;
-  font-size: 13px;
-}
+p { opacity: 0.7; }
 
-/* kart hissi */
+/* kart */
 .card {
-  background: #1c1c2a;
-  border-radius: 18px;
-  padding: 16px;
-  margin-top: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-  transition: 0.3s;
+  background: #1c1c1c;
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 500px;
+  margin: 15px auto;
 }
 
 /* butonlar */
 button {
-  width: 100%;
-  margin: 6px 0;
-  padding: 12px;
+  margin: 6px;
+  padding: 10px 14px;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
-  background: #2a2a3a;
+  background: #2a2a2a;
   color: white;
-  transition: 0.2s;
+  transition: 0.15s;
 }
 
+/* hover */
 button:hover {
-  background: #ff0055;
-  transform: scale(1.02);
+  background: #3a3a3a;
 }
 
-/* alt sonuç kartı */
+/* basma hissi */
+button:active {
+  transform: scale(0.96);
+}
+
+/* seçili buton */
+button.selected {
+  background: #ff0055;
+  color: white;
+  box-shadow: 0 0 10px rgba(255,0,85,0.6);
+}
+
+/* sonuç */
 .result {
-  background: linear-gradient(135deg, #ff0055, #7a00ff);
+  margin-top: 15px;
+  background: #111;
   padding: 15px;
   border-radius: 15px;
-  margin-top: 15px;
+  border: 1px solid #2a2a2a;
   animation: pop 0.25s ease;
 }
 
@@ -76,47 +69,36 @@ button:hover {
   from { transform: scale(0.95); opacity: 0.5; }
   to { transform: scale(1); opacity: 1; }
 }
-
-/* küçük label */
-.title {
-  font-size: 14px;
-  opacity: 0.8;
-  margin-bottom: 10px;
-}
 </style>
 </head>
 
 <body>
 
-<div class="app">
-
 <h1>😎 Style Mood App</h1>
 <p>Seç → kombin al → vibe bul</p>
 
 <div class="card">
-  <div class="title">1️⃣ Ruh hali</div>
-  <button onclick="setMood('confident')">🔥 Özgüvenli</button>
-  <button onclick="setMood('tired')">😴 Yorgun</button>
-  <button onclick="setMood('energetic')">⚡ Enerjik</button>
+  <h3>1️⃣ Mood</h3>
+  <button onclick="setMood('confident', event)">🔥 Özgüvenli</button>
+  <button onclick="setMood('tired', event)">😴 Yorgun</button>
+  <button onclick="setMood('energetic', event)">⚡ Enerjik</button>
 </div>
 
 <div class="card">
-  <div class="title">2️⃣ Stil</div>
-  <button onclick="setStyle('street')">🧢 Street</button>
-  <button onclick="setStyle('old')">💼 Old Money</button>
-  <button onclick="setStyle('drip')">🔥 Drip</button>
+  <h3>2️⃣ Stil</h3>
+  <button onclick="setStyle('street', event)">🧢 Street</button>
+  <button onclick="setStyle('old', event)">💼 Old Money</button>
+  <button onclick="setStyle('drip', event)">🔥 Drip</button>
 </div>
 
 <div class="card">
-  <div class="title">3️⃣ Durum</div>
-  <button onclick="setSituation('school')">🏫 Okul</button>
-  <button onclick="setSituation('out')">🌆 Dışarı</button>
-  <button onclick="setSituation('date')">💘 Date</button>
+  <h3>3️⃣ Durum</h3>
+  <button onclick="setSituation('school', event)">🏫 Okul</button>
+  <button onclick="setSituation('out', event)">🌆 Dışarı</button>
+  <button onclick="setSituation('date', event)">💘 Date</button>
 </div>
 
 <div id="result"></div>
-
-</div>
 
 <script>
 
@@ -124,16 +106,40 @@ let mood = "";
 let style = "";
 let situation = "";
 
-function setMood(m){ mood = m; check(); }
-function setStyle(s){ style = s; check(); }
-function setSituation(si){ situation = si; check(); }
+/* seçim sistemi */
+function setMood(val, e){
+  mood = val;
+  select(e);
+  check();
+}
 
+function setStyle(val, e){
+  style = val;
+  select(e);
+  check();
+}
+
+function setSituation(val, e){
+  situation = val;
+  select(e);
+  check();
+}
+
+/* seçili buton kontrol */
+function select(e){
+  let parent = e.target.parentElement;
+  parent.querySelectorAll("button").forEach(b => b.classList.remove("selected"));
+  e.target.classList.add("selected");
+}
+
+/* hazır mı kontrol */
 function check(){
   if(mood && style && situation){
-    show();
+    showResult();
   }
 }
 
+/* kombin üret */
 function build(){
 
   let text = "";
@@ -151,7 +157,7 @@ function build(){
   }
 
   if(mood === "tired") text += " | 😴 chill mode";
-  if(mood === "energetic") text += " | ⚡ enerji full";
+  if(mood === "energetic") text += " | ⚡ full enerji";
   if(mood === "confident") text += " | 🔥 dominant vibe";
 
   if(situation === "school") text += " | 🏫 okul";
@@ -161,8 +167,8 @@ function build(){
   return text;
 }
 
-function show(){
-
+/* sonuç göster */
+function showResult(){
   document.getElementById("result").innerHTML = `
     <div class="result">
       <b>🎯 Senin Kombinin</b><br><br>
